@@ -1,5 +1,6 @@
 function M = spd_br_factory(d)
     % P_(br,d+1): spd matrices X with X_(d+1,d+1)=1
+    tol = 1e-100;
     symm = @(X) .5*(X+X');  
     M.name = @() sprintf(['Symmetric positive definite geometry of' ...
         ' %dx%d matrices with unitary bottom rigth entry'], d+1, d+1);
@@ -10,7 +11,7 @@ function M = spd_br_factory(d)
     trAA = @(A) sqrt(trAB(A, A));    % = sqrt(trace(A^2))
 
     function A = normalize_br(A)
-        if abs(A(end,end)) < 1e-100
+        if abs(A(end,end)) < tol
             warning("division by zero in br normalization");
         end
         A = A/A(end,end);

@@ -4,11 +4,12 @@ function [x, cost, info, options] = RGD(problem, options)
 %        .tol     : (optional)
 %        .tau     : (optional)
 %        .r       : (optional)
+    tic
     if ~ isfield(options,"x0")
         x0 = problem.M.rand();
     end
     if ~ isfield(options,"maxiter")
-        options.maxiter = 100;
+        options.maxiter = 1000;
     end
     if ~ isfield(options,"tol")
         options.tol = 1e-5;
@@ -19,22 +20,26 @@ function [x, cost, info, options] = RGD(problem, options)
     if ~ isfield(options,"r")
         options.r = 1e-4;
     end
+    if ~ isfield(options,"maxtime")
+        options.maxtime = inf;
+    end
 
     x = x0;
     iter = 0;
-    while iter < options.maxiter
+    while iter < options.maxiter && toc < options.maxtime
         [cost,g] = getCostGrad(problem,x);
         if problem.M.norm(x,g) < options.tol
             break
         end
-        line = @(alpha) problem.cost(M.retr(x,alpha*g));
-        alpha = backtracking(problem.M,cost,g,line,options.tau,options.r);
+        line = @(alpha) problem.cost(problem.M.retr(x,alpha*g));
+        alpha = backtracking(problem.M,x,cost,g,line,options.tau,options.r);
         s = -alpha * g;
-        x = M.retr(x,s);
+        x = problem.M.retr(x,s);
         iter = iter + 1;
     end
     info.iter = iter;
     info.gradnorm = problem.M.norm(x,g);
+    info.time = toc;
 end
 
 function alpha = backtracking(M,x,f,g,line,tau,r)

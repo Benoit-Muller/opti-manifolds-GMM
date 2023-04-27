@@ -1,52 +1,53 @@
-function [x, cost, info, options] = RGD(problem, options)
-% options.x0      : initial guess (optional)
+function [x, cost, info, option] = RGD(problem, option)
+% option.x0      : initial guess (optional)
 %        .maxiter : (optional)
 %        .tol     : (optional)
 %        .tau     : (optional)
 %        .r       : (optional)
     tic
-    if ~ isfield(options,"x0")
-        x0 = problem.M.rand();
+    if ~ isfield(option,"x0")
+        option.x0 = problem.M.rand();
     end
-    if ~ isfield(options,"maxiter")
-        options.maxiter = 1000;
+    if ~ isfield(option,"maxiter")
+        option.maxiter = inf;
     end
-    if ~ isfield(options,"tol")
-        options.tol = 1e-5;
+    if ~ isfield(option,"tolgradnorm")
+        option.tolgradnorm = 1e-5;
     end
-    if ~ isfield(options,"tau")
-        options.tau = 1/2;
+    if ~ isfield(option,"tau")
+        option.tau = 1/2;
     end
-    if ~ isfield(options,"r")
-        options.r = 1e-4;
+    if ~ isfield(option,"r")
+        option.r = 1e-4;
     end
-    if ~ isfield(options,"maxtime")
-        options.maxtime = inf;
+    if ~ isfield(option,"maxtime")
+        option.maxtime = 10;
     end
 
-    x = x0;
+    info=struct('iter',[],'gradnorm',[],'time',[],'cost',[],'alpha',[]);
+    x = option.x0;
     iter = 0;
-    while iter < options.maxiter && toc < options.maxtime
+    while iter < option.maxiter && toc < option.maxtime
         [cost,g] = getCostGrad(problem,x);
-        if problem.M.norm(x,g) < options.tol
+        gradnorm = problem.M.norm(x,g);
+        if gradnorm < option.tolgradnorm
             break
         end
-        line = @(alpha) problem.cost(problem.M.retr(x,alpha*g));
-        alpha = backtracking(problem.M,x,cost,g,line,options.tau,options.r);
-        s = -alpha * g;
-        x = problem.M.retr(x,s);
+        line = @(alpha) problem.cost(problem.M.retr(x,g,-alpha));
+        alpha = backtracking(problem.M,x,cost,g,line,option.tau,option.r);
+        info(iter+1) = struct('iter',iter,'gradnorm',gradnorm, ...
+                              'time',toc,'cost',cost,'alpha',alpha); 
+        x = problem.M.retr(x, g,-alpha);
         iter = iter + 1;
     end
-    info.iter = iter;
-    info.gradnorm = problem.M.norm(x,g);
-    info.time = toc;
 end
 
 function alpha = backtracking(M,x,f,g,line,tau,r)
-    alpha = 1;
+    gnorm = M.norm(x,g);
+    alpha = 1/tau;
     maxiter = 100;
     iter=1;
-    while f - line(alpha) < r * M.norm(x,g)^2 && iter <= maxiter
+    while f - line(alpha) < r * alpha * gnorm^2 && iter <= maxiter
         alpha = tau * alpha;
         iter = iter + 1;
     end

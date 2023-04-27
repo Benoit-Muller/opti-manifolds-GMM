@@ -71,5 +71,6 @@ function M = spd_br_factory(d)
     end
 
     M.lincomb = @matrixlincomb;
+    M.transp = @(X1, X2, eta) eta;
 
 end

@@ -10,8 +10,8 @@ scale = 0.3; % to control separation of the Gaussians klusters
 [u,X,y] = reparametrize(w,mu,sigma,x);
 
 problem.M = M_MLE3(d,k);
-problem.cost = @(point) loglikelyhood(point.S,point.P,y);
-problem.egrad = @(point) egrad_l(point.S,point.P,y);
+problem.cost = @(point) loglikelyhood(point.u,point.X,y);
+problem.egrad = @(point) egrad_l(point.u,point.X,y);
 %problem.egrad = @(point) getApproxGradient(problem, point);
 
 checkmanifold(problem.M);
@@ -48,25 +48,59 @@ theta.g{2}.s  = [4,0;0,3];
 err2 = Err(theta,theta0)
 
 %% Question 29
+% code of CGD
 
-clear
-disp("Question 29")
-% Generate random problem data.
-n = 2;
-D = diag(1+rand(n, 1));
-[Q, R] = qr(randn(n));
-A = Q*D*Q';
-% Create the problem structure.
-manifold = spherefactory(n);
-problem.M = manifold;
-% Define the problem cost function and its Euclidean gradient.
-problem.cost  = @(x) -x'*(A*x);
-problem.egrad = @(x) -2*A*x;
-% Solve.
-option.maxtime = 10;
-option.maxiter = inf;
+%% Question 30
+
+% function [x, cost, info, options] = conjugategradient(problem)
+
+%% Question 31
+
+seed = 1234;
+rng(seed)
+k = 1;
+d = 2;
+n = 1000;
+scale = 1;
+[mu,sigma,w,xx] = makedata(d,k,n,scale,false);
+[u,X,y] = reparametrize(w,mu,sigma,xx);
+
+M = M_MLE3(d,k);
+problem.M = M;
+problem.cost = @(point) loglikelyhood(point.u,point.X,y);
+problem.egrad = @(point) egrad_l(point.u,point.X,y);
+%problem.egrad = @(point) getApproxGradient(problem, point);
+
+x0 = problem.M.rand();
+option.x0 = x0;
+option.maxtime = 5;
+option.maxiter = Inf;
+option.tolgradnorm = 1e-5;
 [x, cost, info, option] = RGD(problem, option);
-% Display some statistics.
-display(info)
-display(cost)
-display(-norm(A))
+[x1, cost1, info1, options1] = conjugategradient(problem, x0, option);
+%
+figure;
+semilogy([info.iter], [info.gradnorm], '.-');
+hold on;
+semilogy([info1.iter], [info1.gradnorm], '.-');
+legend("Riemanian gradient descent","Conjugated gradient descent")
+xlabel('iteration');
+ylabel('gradient norm');
+title("gradient descents")
+
+figure;
+plot([info.iter], [info.cost], '.-');
+hold on;
+plot([info1.iter], [info1.cost], '.-');
+legend("Riemanian gradient descent","Conjugated gradient descent")
+xlabel('iteration');
+ylabel('cost');
+title("gradient descents")
+%
+figure;
+[w,mu,sigma] = deparametrize(x1.u,x1.X);
+plot(xx(1,:),xx(2,:),'.','MarkerSize', 8);
+hold on;
+ell = error_ellipse(sigma{1},mu{1},'conf',0.999)
+
+

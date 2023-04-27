@@ -7,4 +7,4 @@ function M = M_MLE3(d,k)
     prod_spd_br = powermanifold(spd_br, k);
     prod_spd_br = rmfield(prod_spd_br,{'exp'});
 
-    M = productmanifold(struct('S',Sphere, 'P',prod_spd_br));
+    M = productmanifold(struct('u',Sphere, 'X',prod_spd_br));

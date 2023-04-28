@@ -1,4 +1,4 @@
-function [mu,Sigma,w,X] = makedata(d,k,n,scale,display)
+function [mu,Sigma,w,X,n] = makedata(d,k,n,scale,display)
     % create parameters w, mu_j, Sigma_j for the ground truth GMM
     for j = 1 : k
         [mu{j}, Sigma{j}] = randomgaussian(d, scale);

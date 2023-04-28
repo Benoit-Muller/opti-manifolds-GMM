@@ -1,4 +1,4 @@
-function [u,X,y] = reparametrize(w,mu,sigma,x)
+function [u,X,y,Theta] = reparametrize(w,mu,sigma,x)
     [k,~] = size(mu);
     [~,n] = size(x);
     u = psi(w);
@@ -7,6 +7,8 @@ function [u,X,y] = reparametrize(w,mu,sigma,x)
         X{i} = phi(mu{i},sigma{i});
     end
     y = [x;ones(1,n)];
+    Theta.u=u;
+    Theta.X =X;
 end
 
 function X = phi(mu,sigma)

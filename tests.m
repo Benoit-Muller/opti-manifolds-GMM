@@ -1,15 +1,17 @@
 %% Test spd_br, loglikelyhood, egrad_l
 clear
-disp("Test spd_br, loglikelyhood, egrad_l")
+disp("––– Test spd_br, loglikelyhood, egrad_l –––")
+
 %seed = 1234;
 %rng(seed)
 d = 2; % dimension of the data space
 k = 5; % number of klusters
 n = 100; % number of data samples
 scale = 0.3; % to control separation of the Gaussians klusters
-psi = @sqrt;
-[mu,sigma,w,x] = makedata(d,k,n,scale,false);
-[u,X,y] = reparametrize(w,mu,sigma,x);
+
+display=false
+[mu,sigma,w,xx,n] = makedata(d,k,n,scale,diplay);
+[u,X,y,Theta] = reparametrize(w,mu,sigma,xx)
 
 Sphere = spherefactory(k);
 
@@ -34,7 +36,7 @@ disp("Test RGD")
 % Generate random problem data.
 n = 2;
 D = diag(randn(n, 1));
-[Q, R] = qr(randn(n));
+[Q, ~] = qr(randn(n));
 A = Q*D*Q';
 % Create the problem structure.
 manifold = spherefactory(n);
@@ -60,7 +62,7 @@ figure;
 semilogy([info.iter], [info.gradnorm], '.-');
 hold on;
 semilogy([info1.iter], [info1.gradnorm], '.-');
-legend("Riemanian gradient descent","Conjugated gradient descent")
+legend("Riemanian gradient descent", "Conjugated gradient descent")
 xlabel('iteration');
 ylabel('gradient norm');
 title("gradient descents")
@@ -69,7 +71,25 @@ figure;
 plot([info.iter], [info.cost], '.-');
 hold on;
 plot([info1.iter], [info1.cost], '.-');
-legend("Riemanian gradient descent","Conjugated gradient descent")
+legend("Riemanian gradient descent", "Conjugated gradient descent")
 xlabel('iteration');
 ylabel('cost');
 title("gradient descents")
+
+%% Test question31()
+disp("––– Test question31() –––")
+
+clear
+close all
+
+k = 1;
+d = 2;
+n = 1000;
+scale = 1;
+incldude_f = false;
+question31bis(d,k,n,scale,incldude_f);
+
+
+
+
+

@@ -25,3 +25,12 @@ function h = H(m1,s1, m2,s2)
     h = h * exp(-1/8 * (m1-m2)'*(s\(m1-m2)));
     h = sqrt(1-h);
 end
+
+function T = Theta(w,mu,sigma)
+    k = length(mu);
+    T = struct("w",w,"g",cell(k,1));
+    for j=1:k
+        T.g{j}.m = mu{j};
+        T.g{j}.s = sigma{j};
+    end
+end

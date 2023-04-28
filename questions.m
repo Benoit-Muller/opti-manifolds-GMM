@@ -5,24 +5,18 @@ fprintf("\n––– Question 25 –––")
 clear;
 close all;
 
-% seed = 1234;
-% rng(seed)
+seed = 9876;
+rng(seed)
 d = 2; % dimension of the data space
 k = 5; % number of klusters
 n = 100; % number of data samples
 scale = 0.3; % to control separation of the Gaussians klusters
 
-display=false;
-[mu,sigma,w,xx,n] = makedata(d,k,n,scale,display);
-[u,X,y,Theta] = reparametrize(w,mu,sigma,xx);
-
-problem.M = M_MLE3(d,k);
-problem.cost = @(point) loglikelyhood(point.u,point.X,y);
-problem.egrad = @(point) egrad_l(point.u,point.X,y);
+problem = problem_MLE3(d,k,n,scale);
 
 checkmanifold(problem.M);
 checkgradient(problem);
-
+saveas(gcf,'graphics/q25_checkgradient.svg')
 
 %% Question 28
 fprintf("\n––– Question 28 –––")
@@ -65,7 +59,8 @@ fprintf("computed : %f\n",Err(theta,theta0))
 
 %% Question 30
 
-% function [x, cost, info, options] = conjugategradient(problem)
+problem.M = M_MLE3(d,k);
+[x, cost, info, options] = conjugategradient(problem);
 
 %% Question 31
 fprintf("\n––– Question 31 –––")
@@ -109,5 +104,3 @@ incldude_f = false;
 for d = dd
     question31bis(d,k,n,scale,incldude_f);
 end
-
-

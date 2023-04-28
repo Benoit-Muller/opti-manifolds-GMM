@@ -96,6 +96,10 @@ incldude_f = true;
 
 for k = kk
     [r,c] = question31(d,k,n,scale,incldude_f);
+    fprintf("Average running times with k=%d, d=%d, n=%d, tolgradnorm=%f :\n", ...
+            k,d,n,option.tolgradnorm);
+    fprintf("   riemanian GD  : %f +- %f \n",r.mean, r.std)
+    fprintf("   congugated GD : %f +- %f \n",c.mean, c.std)
 end
 
 %% Question 33
@@ -103,12 +107,18 @@ fprintf("\n––– Question 33 –––\n")
 clear;
 close all;
 
-k = [2,4];
+kk = [2,4];
 dd = [5,10,15];
-n = 1000;
+n = 100;
 scale = 0.3;
 incldude_f = false;
 
 for d = dd
-    [r,c] = question31(d,k,n,scale,incldude_f);
+    for k=kk
+        [r,c] = question31(d,k,n,scale,incldude_f);
+        fprintf("Average running times with k=%d, d=%d, n=%d, tolgradnorm=%f :\n", ...
+                k,d,n,option.tolgradnorm);
+        fprintf("   riemanian GD  : %f +- %f \n",r.mean, r.std)
+        fprintf("   congugated GD : %f +- %f \n",c.mean, c.std)
+    end
 end

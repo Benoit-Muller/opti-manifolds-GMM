@@ -106,7 +106,7 @@ function [err, h] = question31g(d,k,n,scale)
         [c.x,c.cost,c.info,c.option] = conjugategradient(problem, option.x0, option);
 
         [w,mu,sigma,Theta] = deparametrize(c.x.u,c.x.X);
-        err(i) = Err(Theta, problem.theta);
+        err(i) = Err(Theta, problem.Theta);
     end
     figure();
     h = histogram(err);

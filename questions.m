@@ -79,11 +79,11 @@ close all;
 
 k = 1;
 d = 2;
-n = 1000; %1000
+n = 100; %1000
 scale = 1;
 incldude_f = true;
 
-[r,c] = question31(d,k,n,scale,incldude_f);
+question31(d,k,n,scale,incldude_f);
 
 %% Question 32
 fprintf("\n––– Question 32 –––\n")

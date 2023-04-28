@@ -1,5 +1,5 @@
 function [r,c] = question31(d,k,n,scale,incldude_f)
-    [r,c] = question31abcdef(d,k,n,scale,incldude_f);
+    %[r,c] = question31abcdef(d,k,n,scale,incldude_f);
     [err, h] = question31g(d,k,n,scale);
 end
 
@@ -92,13 +92,13 @@ function [err, h] = question31g(d,k,n,scale)
     T=30;
     err = zeros(T,1);
     for i=1:T
-        problem = question31a(d,k,n,scale);
+        problem = problem_MLE3(d,k,n,scale);
         option.x0 = problem.M.rand();
         [r.x,r.cost,r.info,r.option] = RGD(problem, option);
         [c.x,c.cost,c.info,c.option] = conjugategradient(problem, option.x0, option);
 
         [w,mu,sigma,Theta] = deparametrize(c.x.u,c.x.X);
-        err(i) = Err(Theta, ptob.Theta_true);
+        err(i) = Err(Theta, problem.Theta);
     end
     figure();
     h = histogram(err);

@@ -82,7 +82,7 @@ function [r,c] = question31abcdef(d,k,n,scale,include_f)
             error_ellipse(sigma{j},mu{j});
         end
         title("Data and obtained clusters")
-        saveas(gcf,sprintf('graphics/q31_klusters_%d_%d_%d.svg',d,k,n))
+        saveas(gcf,sprintf('graphics/q31_klusters_%d_%d_%d.pdf',d,k,n))
     end
 end
 
@@ -103,7 +103,7 @@ function [err, h] = question31g(d,k,n,scale)
     figure();
     h = histogram(err);
     title("Histogram of $$Err(\Theta,\Theta^*)$$ for random data and initial guess")
-    saveas(gcf,sprintf('graphics/q31_hist_%d_%d_%d.svg',d,k,n))
+    saveas(gcf,sprintf('graphics/q31_hist_%d_%d_%d.pdf',d,k,n))
 end
 
 

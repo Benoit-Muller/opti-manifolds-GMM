@@ -17,7 +17,7 @@ problem = problem_MLE3(d,k,n,scale);
 
 checkmanifold(problem.M);
 checkgradient(problem);
-saveas(gcf,'graphics/q25_checkgradient.svg')
+saveas(gcf,'graphics/q25_checkgradient.pdf')
 
 %% Question 28
 fprintf("\n––– Question 28 –––\n")
@@ -57,19 +57,15 @@ fprintf("computed : %f\n",Err(theta,theta0))
 fprintf("\n––– Question 29 –––\n")
 
 problem = problem_MLE3(2,5,100,0.3);
-option = struct("maxiter",Inf, "maxtime",10, "tolgradnorm",0, ...
+option = struct("maxiter",Inf, "maxtime",60, "tolgradnorm",1e-3, ...
                 "verbosity",0,"x0",problem.M.rand());
 [x, cost, info, option] = RGD(problem, option);
-disp(x)
-disp(cost)
 disp(info(end))
 
 %% Question 30
 fprintf("\n––– Question 30 –––\n")
 
 [x, cost, info, option] = conjugategradient(problem);
-disp(x)
-disp(cost)
 disp(info(end))
 
 %% Question 31

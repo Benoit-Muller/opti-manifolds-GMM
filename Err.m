@@ -26,7 +26,7 @@ function h = H(m1,s1, m2,s2)
     h = sqrt(1-h);
 end
 
-function T = Theta(w,mu,sigma)
+function T = make_Theta(w,mu,sigma)
     k = length(mu);
     T = struct("w",w,"g",cell(k,1));
     for j=1:k

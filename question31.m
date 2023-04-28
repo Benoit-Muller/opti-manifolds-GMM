@@ -72,7 +72,7 @@ function [r,c] = question31abcdef(d,k,n,scale,include_f)
     title("Cost")
     sgtitle('Riemann and Conjugated Gradient descent evolution')
     
-    saveas(gcf,sprintf('graphics/q31_evolution_%d_%d_%d.svg',d,k,n))
+    saveas(gcf,sprintf('graphics/q31_evolution_%d_%d_%d.pdf',d,k,n))
 
     % f)
     if include_f
@@ -105,7 +105,7 @@ function [err, h] = question31g(d,k,n,scale)
         [r.x,r.cost,r.info,r.option] = RGD(problem, option);
         [c.x,c.cost,c.info,c.option] = conjugategradient(problem, option.x0, option);
 
-        [w,mu,sigma,Theta] = deparametrize(c.x.u,c.x.X);
+        [w,mu,sigma,Theta] = make_Theta(c.x.u,c.x.X);
         err(i) = Err(Theta, problem.theta);
     end
     figure();

@@ -9,6 +9,9 @@ function [u,X,y,Theta] = reparametrize(w,mu,sigma,x)
     y = [x;ones(1,n)];
     Theta.u=u;
     Theta.X =X;
+    Theta.w=w;
+    Theta.m=mu;
+    Theta.s=sigma;
 end
 
 function X = phi(mu,sigma)

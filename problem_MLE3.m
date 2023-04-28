@@ -13,6 +13,6 @@ function problem = problem_MLE3(d,k,n,scale)
     [mu,sigma,w,xx,problem.n] = makedata(d,k,n,scale,display);
     [problem.u,problem.X,problem.y,problem.Theta] = reparametrize(w,mu,sigma,xx);
 
-    problem.cost = @(point) loglikelyhood(point.u,point.X,y);
-    problem.egrad = @(point) egrad_l(point.u,point.X,y);
+    problem.cost = @(point) loglikelyhood(point.u,point.X,problem.y);
+    problem.egrad = @(point) egrad_l(point.u,point.X,problem.y);
 end

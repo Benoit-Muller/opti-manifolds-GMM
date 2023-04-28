@@ -1,6 +1,6 @@
 function [r,c] = question31(d,k,n,scale,incldude_f)
     [r,c] = question31abcdef(d,k,n,scale,incldude_f);
-    %[err, h] = question31g(d,k,n,scale)
+    [err, h] = question31g(d,k,n,scale);
 end
 
 function problem = question31a(d,k,n,scale)
@@ -28,11 +28,11 @@ end
 
 function [r,c] = question31abcdef(d,k,n,scale,include_f)
     % a)
-    problem = question31a(d,k,n,scale);
+    problem = problem_MLE3(d,k,n,scale);
     % b,c)
-    option = struct("maxiter",Inf, "maxtime",20, "tolgradnorm",1e-5,"verbosity",0);
+    T=10;
+    option = struct("maxiter",Inf, "maxtime",10, "tolgradnorm",1e-3,"verbosity",0);
     endtime = struct("r",[],"c",[]);
-    T=30;
     for i=1:T
         option.x0 = problem.M.rand();
         [r.x,r.cost,r.info,r.option] = RGD(problem, option);
@@ -97,7 +97,7 @@ function [err, h] = question31g(d,k,n,scale)
         [r.x,r.cost,r.info,r.option] = RGD(problem, option);
         [c.x,c.cost,c.info,c.option] = conjugategradient(problem, option.x0, option);
 
-        [w,mu,sigma,Theta] = deparametrize(x.u,x.X);
+        [w,mu,sigma,Theta] = deparametrize(c.x.u,c.x.X);
         err(i) = Err(Theta, ptob.Theta_true);
     end
     figure();

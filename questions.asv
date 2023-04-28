@@ -3,7 +3,7 @@ seed = 9876;
 rng(seed)
 
 %% Question 25
-fprintf("\n––– Question 25 –––\n")
+fprintf("\n––– Question 25 –––")
 
 clear;
 close all;
@@ -20,7 +20,7 @@ checkgradient(problem);
 saveas(gcf,'graphics/q25_checkgradient.svg')
 
 %% Question 28
-fprintf("\n––– Question 28 –––\n")
+fprintf("\n––– Question 28 –––")
 
 disp("Computation of the total variation distance ")
 % * d=2; k=1;
@@ -54,39 +54,37 @@ disp(   "true     : 1.1228")
 fprintf("computed : %f\n",Err(theta,theta0))
 
 %% Question 29
-fprintf("\n––– Question 29 –––\n")
-
+fprintf("\n––– Question 29 –––")
+% code of CGD
 problem = problem_MLE3(2,5,100,0.3);
 option = struct("maxiter",Inf, "maxtime",10, "tolgradnorm",0, ...
                 "verbosity",0,"x0",problem.M.rand());
 [x, cost, info, option] = RGD(problem, option);
 disp(x)
 disp(cost)
-disp(info(end))
+disp(info)
 
 %% Question 30
-fprintf("\n––– Question 30 –––\n")
+fprintf("\n––– Question 30 –––")
 
+problem = problem_MLE3(2,5,100,0.3);
 [x, cost, info, option] = conjugategradient(problem);
-disp(x)
-disp(cost)
-disp(info(end))
 
 %% Question 31
-fprintf("\n––– Question 31 –––\n")
+fprintf("\n––– Question 31 –––")
 clear;
 close all;
 
 k = 1;
 d = 2;
-n = 1000; %1000
+n = 1000;
 scale = 1;
 incldude_f = true;
 
-[r,c] = question31(d,k,n,scale,incldude_f);
+question31bis(d,k,n,scale,incldude_f);
 
 %% Question 32
-fprintf("\n––– Question 32 –––\n")
+fprintf("\n––– Question 32 –––")
 clear;
 close all;
 
@@ -97,11 +95,11 @@ scale = 0.3;
 incldude_f = true;
 
 for k = kk
-    [r,c] = question31(d,k,n,scale,incldude_f);
+    question31bis(d,k,n,scale,incldude_f);
 end
 
 %% Question 33
-fprintf("\n––– Question 33 –––\n")
+fprintf("\n––– Question 33 –––")
 clear;
 close all;
 
@@ -112,5 +110,5 @@ scale = 0.3;
 incldude_f = false;
 
 for d = dd
-    [r,c] = question31(d,k,n,scale,incldude_f);
+    question31bis(d,k,n,scale,incldude_f);
 end

@@ -1,6 +1,6 @@
-function question31(d,k,n,scale,incldude_f)
-    question31abcdef(d,k,n,scale,incldude_f);
-    %question31g(d,k,n,scale)
+function [r,c] = question31(d,k,n,scale,incldude_f)
+    [r,c] = question31abcdef(d,k,n,scale,incldude_f);
+    %[err, h] = question31g(d,k,n,scale)
 end
 
 function problem = question31a(d,k,n,scale)
@@ -26,7 +26,7 @@ function problem = question31a(d,k,n,scale)
     end
 end
 
-function  question31abcdef(d,k,n,scale,include_f)
+function [r,c] = question31abcdef(d,k,n,scale,include_f)
     % a)
     problem = question31a(d,k,n,scale);
     % b,c)
@@ -49,6 +49,7 @@ function  question31abcdef(d,k,n,scale,include_f)
     fprintf("   congugated GD : %f +- %f \n",c.mean, c.std)
 
     % d)
+    figure('Position', 10+50*[0 0 14 6])
     subplot(1,2,1);
     semilogy([r.info.iter], [r.info.gradnorm], '.-');
     hold on;
@@ -68,6 +69,8 @@ function  question31abcdef(d,k,n,scale,include_f)
     ylabel('$$l(\Theta_k)$$',"Interpreter","latex");
     title("Cost")
     sgtitle('Riemann and Conjugated Gradient descent evolution')
+    
+    saveas(gcf,sprintf('graphics/q31_evolution_%d_%d_%d.svg',d,k,n))
 
     % f)
     if include_f
@@ -79,10 +82,11 @@ function  question31abcdef(d,k,n,scale,include_f)
             error_ellipse(sigma{j},mu{j});
         end
         title("Data and obtained clusters")
+        saveas(gcf,sprintf('graphics/q31_klusters_%d_%d_%d.svg',d,k,n))
     end
 end
 
-function question31g(d,k,n,scale)
+function [err, h] = question31g(d,k,n,scale)
     % g)
     option = struct("maxiter",Inf, "maxtime",20, "tolgradnorm",1e-5,"verbosity",0);
     T=30;
@@ -99,6 +103,7 @@ function question31g(d,k,n,scale)
     figure();
     h = histogram(err);
     title("Histogram of $$Err(\Theta,\Theta^*)$$ for random data and initial guess")
+    saveas(gcf,sprintf('graphics/q31_hist_%d_%d_%d.svg',d,k,n))
 end
 
 

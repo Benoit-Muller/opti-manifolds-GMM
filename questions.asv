@@ -23,7 +23,6 @@ problem.egrad = @(point) egrad_l(point.u,point.X,y);
 checkmanifold(problem.M);
 checkgradient(problem);
 
-
 %% Question 28
 fprintf("\n––– Question 28 –––")
 

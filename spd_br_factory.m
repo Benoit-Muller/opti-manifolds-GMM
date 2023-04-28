@@ -26,6 +26,7 @@ function M = spd_br_factory(d)
             teta = t*eta;
         end
         Y = symm(X + teta + .5*teta*(X\teta));
+        % The symm() call is mathematically unnecessary but numerically
     end
     
     M.retr = @retraction;
@@ -72,5 +73,9 @@ function M = spd_br_factory(d)
 
     M.lincomb = @matrixlincomb;
     M.transp = @(X1, X2, eta) eta;
+    M.zerovec = @(X) zeros(d+1);
+    M.vec = @(X, U) U(:);
+    M.mat = @(X, u) reshape(u, d+1, d+1);
+    M.vecmatareisometries = @() false;
 
 end

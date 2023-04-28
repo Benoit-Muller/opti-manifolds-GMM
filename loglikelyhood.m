@@ -3,7 +3,7 @@ function l = loglikelyhood(u,X,y)
     [~,n] = size(y);
     l = 0;
     for i=1:n
-        l = l - log(cellfun(@(X)q(X,y(:,i)),X)' * u.^2);
+        l = l - log(cellfun(@(Y)q(Y,y(:,i)),X)' * u.^2);
     end
 end
 

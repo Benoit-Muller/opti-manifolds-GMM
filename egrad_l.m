@@ -14,5 +14,6 @@ function g = egrad_l(u,X,y)
             g.X{j} = g.X{j} + Q(i,j) / p(i) * (X{j} - y(:,i)*y(:,i)');
         end
          g.X{j} = g.X{j} * u(j)^2 / 2;
+         g.X{j}=(X{j}\g.X{j}) / X{j};
     end
 end

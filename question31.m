@@ -105,8 +105,7 @@ function [err, h] = question31g(d,k,n,scale)
         [r.x,r.cost,r.info,r.option] = RGD(problem, option);
         [c.x,c.cost,c.info,c.option] = conjugategradient(problem, option.x0, option);
 
-        [w,mu,sigma,Theta] = make_Theta(c.x.u,c.x.X);
-        err(i) = Err(Theta, problem.theta);
+        err(i) = Err(c.x, problem.theta);
     end
     figure();
     h = histogram(err);

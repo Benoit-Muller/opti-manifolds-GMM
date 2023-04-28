@@ -20,6 +20,7 @@ function M = spd_br_factory(d)
     M.norm = @(X, eta) real(trAA(X\eta));
     
     function Y = retraction_spd(X, eta, t)
+        eta = symm(eta);
         if nargin < 3
          teta = eta;
         else

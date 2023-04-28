@@ -1,5 +1,5 @@
 function [r,c] = question31(d,k,n,scale,incldude_f)
-    %[r,c] = question31abcdef(d,k,n,scale,incldude_f);
+    [r,c] = question31abcdef(d,k,n,scale,incldude_f);
     [err, h] = question31g(d,k,n,scale);
 end
 

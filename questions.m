@@ -69,13 +69,15 @@ fprintf("\n––– Question 30 –––\n")
 disp(info(end))
 
 %% Question 31
+seed = 9876;
+rng(seed)
 fprintf("\n––– Question 31 –––\n")
 clear;
 close all;
 
 k = 1;
 d = 2;
-n = 100; %1000
+n = 1000; %1000
 scale = 1;
 incldude_f = true;
 
